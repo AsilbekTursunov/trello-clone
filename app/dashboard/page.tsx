@@ -45,8 +45,7 @@ const Dashboard = () => {
 	const isFreeUser = false
 	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const queryClient = useQueryClient()
-	const [boards, setBoards] = useState<Board[]>(data?.boards || [])
+	const queryClient = useQueryClient() 
 
 
 	// create board
@@ -58,14 +57,13 @@ const Dashboard = () => {
 			return response.data
 		}, onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['boards'] })
-			console.log('data', data)
-			setBoards([...boards, data])
+			console.log('data', data) 
 		}
 	})
 
-	const canCreateBoard = !isFreeUser || boards && boards.length < 2;
+	const canCreateBoard = !isFreeUser || data?.boards && data?.boards.length < 2;
 
-	const boardsWithTaskCount = boards && boards.map((board: Board) => ({
+	const boardsWithTaskCount = data?.boards && data?.boards.map((board: Board) => ({
 		...board,
 		taskCount: 0, // This would need to be calculated from actual data
 	}));
@@ -109,7 +107,6 @@ const Dashboard = () => {
 	// if (loading) return <Loader2 className="animate-spin" />
 	// console.log('boards', boards)
 	// console.log('user', user)
-
 	return (
 		<div className='min-h-screen bg-gray-50'>
 			<Navbar />
@@ -131,7 +128,7 @@ const Dashboard = () => {
 										Total Boards
 									</p>
 									<p className="text-xl sm:text-2xl font-bold text-gray-900">
-										{boards?.length}
+										{data?.boards?.length}
 									</p>
 								</div>
 								<div className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -148,7 +145,7 @@ const Dashboard = () => {
 										Active Projects
 									</p>
 									<p className="text-xl sm:text-2xl font-bold text-gray-900">
-										{boards?.length}
+										{data?.boards?.length}
 									</p>
 								</div>
 								<div className="h-10 w-10 sm:h-12 sm:w-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -166,7 +163,7 @@ const Dashboard = () => {
 									</p>
 									<p className="text-xl sm:text-2xl font-bold text-gray-900">
 										{
-											boards?.filter((board: Board) => {
+											data?.boards?.filter((board: Board) => {
 												const updatedAt = new Date(board.updated_at);
 												const oneWeekAgo = new Date();
 												oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -189,7 +186,7 @@ const Dashboard = () => {
 										Total Boards
 									</p>
 									<p className="text-xl sm:text-2xl font-bold text-gray-900">
-										{boards?.length}
+										{data?.boards?.length}
 									</p>
 								</div>
 								<div className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -209,7 +206,7 @@ const Dashboard = () => {
 							<p className="text-gray-600">Manage your projects and tasks</p>
 							{isFreeUser && (
 								<p className="text-sm text-gray-500 mt-1">
-									Free plan: {boards?.length}/1 boards used
+									Free plan: {data?.boards?.length}/1 boards used
 								</p>
 							)}
 						</div>
@@ -263,7 +260,7 @@ const Dashboard = () => {
 					</div>
 
 					{/* Boards Grid/List */}
-					{boards?.length === 0 ? (
+					{data?.boards?.length === 0 ? (
 						<div>No boards yet</div>
 					) : viewMode === "grid" ? (
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -318,7 +315,7 @@ const Dashboard = () => {
 						</div>
 					) : (
 						<div>
-							{boards?.map((board: Board, key: number) => (
+							{data?.boards?.map((board: Board, key: number) => (
 								<div key={board._id} className={key > 0 ? "" : ""}>
 									<Link href={`/boards/${board._id}`}>
 										<Card className="hover:shadow-lg gap-3 p-4 transition-shadow cursor-pointer group">

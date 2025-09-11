@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useBoard } from "@/hooks/useBoard";
+import { useBoard, useUpdateBoard } from "@/hooks/useBoard";
+import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -35,6 +36,8 @@ export default function BoardPage() {
     assignee: [] as string[],
     dueDate: null as string | null,
   });
+
+  const { mutate: updateBoard, isPending: loading } = useUpdateBoard({ id: params.id as string, body: { title: newTitle, color: newColor }})
 
   if (isLoading) return <PageLoader />
 
@@ -111,7 +114,8 @@ export default function BoardPage() {
               >
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+              <Button onClick={() => updateBoard()} type="button">
+                {loading ? <Loader2 className="animate-spin" /> : 'Save Changes'}</Button>
             </div>
           </form>
         </DialogContent>

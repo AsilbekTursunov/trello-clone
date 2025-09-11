@@ -1,17 +1,20 @@
 import boardsModel from "@/lib/mongodb/models/boards.model"
+import { ObjectId } from "mongodb"
+import mongoose from "mongoose"
 import { NextResponse } from "next/server"
+import { connectDB } from "@/lib/mongodb/db"
 
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params
-  const body = await req.json()
+export async function PUT(req: Request) {
+  const body = await req.json() 
   try {
-    const response = await boardsModel.findById(id)
+    connectDB() 
+    const response = await boardsModel.findById(body.data.board_id)
     if (!response) {
       return NextResponse.json({ error: 'Board not found' }, { status: 404 })
     }
-    response.title = body.title
-    response.color = body.color
+    response.title = body.data.title
+    response.color = body.data.color
     await response.save()
     return NextResponse.json(response, { status: 200 })
   } catch (error) {
