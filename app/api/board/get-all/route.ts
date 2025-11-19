@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server"
 import boardsModel from "@/lib/mongodb/models/boards.model"
 import { connectDB } from "@/lib/mongodb/db"
 
-export async function POST(req: NextRequest) {
-  const body = await req.json() 
+export async function GET(req: NextRequest) {
+  const user_email = req.nextUrl.searchParams.get('user_email')
   try {
     connectDB()
-    const boards = await boardsModel.find({ user_email: body.data?.user_email })
+    const boards = await boardsModel.find({ user_email })
     if (!boards) {
       return NextResponse.json({ boards: [] })
     }

@@ -26,9 +26,9 @@ export interface Task {
   _id: string
   column_id: string
   title: string
-  description: string | null
-  assignee: string | null
-  due_date: string | null
+  description: string | undefined
+  assignee: string | undefined
+  due_date: string | undefined
   priority: 'low' | 'medium' | 'high'
   sort_order: number
   created_at: string

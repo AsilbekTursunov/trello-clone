@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/ui/providers/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { QueryProvider } from '@/components/provider/QueryProvider'
+import NextTopLoader from 'nextjs-toploader'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -36,6 +37,7 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						<QueryProvider>
+							<NextTopLoader color='blue' /> {/* Place it here */}
 							{children}
 						</QueryProvider>
 					</ThemeProvider>

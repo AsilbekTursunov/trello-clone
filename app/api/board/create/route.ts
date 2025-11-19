@@ -1,4 +1,4 @@
-import { boardService, columnService } from "@/actions/index.action";
+import { createBoard, createColumn } from "@/actions/index.action";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse('Title is required', { status: 400 })
     }
 
-    const newBoard = await boardService.createBoard({ title, user_email })
+    const newBoard = await createBoard({ title, user_email })
     const defaultColumns = [
       { title: 'To Do', sort_order: 0 },
       { title: 'In Progress', sort_order: 1 },
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     await Promise.all(
       defaultColumns.map(column =>
-        columnService.createColumn({ ...column, user_email, board_id: newBoard._id! })
+        createColumn({ ...column, user_email, board_id: newBoard._id! })
       )
     )
 

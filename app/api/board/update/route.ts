@@ -1,6 +1,4 @@
-import boardsModel from "@/lib/mongodb/models/boards.model"
-import { ObjectId } from "mongodb"
-import mongoose from "mongoose"
+import boardsModel from "@/lib/mongodb/models/boards.model" 
 import { NextResponse } from "next/server"
 import { connectDB } from "@/lib/mongodb/db"
 

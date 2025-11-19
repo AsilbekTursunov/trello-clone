@@ -10,4 +10,4 @@ const BoardSchema = new mongoose.Schema({
 	timestamps: true
 })
 
-export default mongoose.models.Board || mongoose.model('Board', BoardSchema)
+export default mongoose?.models?.Board || mongoose.model('Board', BoardSchema)
